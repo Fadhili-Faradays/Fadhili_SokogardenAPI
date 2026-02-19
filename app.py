@@ -31,6 +31,17 @@ def signUp():
     return jsonify({"message":"Sign up successful"})
 
 
+@app.route("/api/signin",methods=["POST"])
+def signIn():
+    email= request.form["email"]
+    password= request.form["password"]
+    print(email,password)
+    
+    return jsonify({"message","signin api"})
+
+
+
+
 
 
 if (__name__)=="__main__":
