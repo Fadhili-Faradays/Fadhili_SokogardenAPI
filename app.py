@@ -16,7 +16,7 @@ def signUp():
     
     # create cursor 
     cursor = connection.cursor()
-    
+    #connect sql
     sql= "insert into users(username,email,phone,password) values(%s,%s,%s,%s)"
     print(sql)
 
