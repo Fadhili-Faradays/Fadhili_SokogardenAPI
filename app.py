@@ -15,12 +15,12 @@ def signUp():
     connection =pymysql.connect(host="localhost", user="root", password="",database="fadhili_sokogarden",)
     
     # create cursor 
-    cursor=connection.cursor()
-    #
+    cursor = connection.cursor()
+    
     sql= "insert into users(username,email,phone,password) values(%s,%s,%s,%s)"
     print(sql)
 
-    #
+    
     data=(username,email,phone,password)
     print (data)
     # execute sql query
@@ -31,18 +31,28 @@ def signUp():
     return jsonify({"message":"Sign up successful"})
 
 
-@app.route("/api/signin",methods=["POST"])
+@app.route("/api/signin", methods=["POST"])
 def signIn():
     email= request.form["email"]
     password= request.form["password"]
     print(email,password)
-    
-    return jsonify({"message","signin api"})
 
+    connection =pymysql.connect(host="localhost",user="root",password="",database="fadhili_sokogarden")
+    cursor=connection.cursor(pymysql.cursors.DictCursor)
+    sql="select user_id, username, email, phone from users where email= %sand password =%s"
+    #data to execute the query
+    data=(email,password)
 
-
-
-
+    # execute 
+    cursor.execute(sql,data)
+    # check resulting rows
+    if cursor.rowcount == 0:
+        return jsonify({"message":"Invalid credentials"})
+    else:
+        # get user data
+        user= cursor.fetchone()
+        return jsonify({"message":"log in successful", "user": user })
+    return jsonify({"message": "signin api"})
 
 if (__name__)=="__main__":
     app.run(debug=True)
