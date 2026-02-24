@@ -89,6 +89,18 @@ def addProduct():
 
     return jsonify({"message":"product added successfully"})
 
+@app.route("/api/get_product", methods=["POST"])
+def addProduct():
+    connection =pymysql.connect(host="localhost",user="root",password="",database="fadhili_sokogarden")
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
+    sql= "select * from product_details"
+    cursor.execute(sql)
 
+    if cursor.rowcount == 0:
+        return jsonify({"message": "No products found"})
+    else:
+        products= cursor.fetchall()
+        return jsonify(products)
+ 
 if (__name__)=="__main__":
     app.run(debug=True)
